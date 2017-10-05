@@ -2,7 +2,12 @@
 
 This repo contains various small utilities. Use at your own risk!
 
-## GNB: giti(hub) new branch
+## Installation
+
+To install, clone this repo to a location on your hard drive and add that
+location to the system path.
+
+## GNB: github) new branch
 
 This tool makes it easy to create a new git branch of the form
 `{issue number}-{issue-title}` where spaces and (some) punctuation characters
