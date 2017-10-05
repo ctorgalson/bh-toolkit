@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# Fail if something goes wrong.
+set -e
+
+# Document the command's use.
+if [[ $# -eq 2 ]] && [[ $1 =~ ^[1-9][0-9]+$ ]]
+then
+  # Assemble vars.
+  ISSUENUMBER=$1
+  ISSUETITLE=$2
+
+elif [[ $# -eq 1 ]] && [[ $1 =~ [1-9][0-9]+$ ]]
+then
+  # Assemble vars.
+  ISSUENUMBER=$(echo $1 | cut -d '#' -f2)
+  ISSUETITLE=$(echo $1 | cut -d '#' -f1 | xargs)
+
+else
+  echo ""
+  echo ""
+  echo "$0 creates a new git branch in the repo using Github issue title and name"
+  echo ""
+  echo "This command can be used with one or two arguments:"
+  echo ""
+  echo "One argument: $0 [full issue title]"
+  echo ""
+  echo "  1. [issue title]: The (quoted) github issue title including the issue"
+  echo "     number at the end."
+  echo ""
+  echo "Given the entire issue title, including the issue number, the command splits"
+  echo "the argument on the '#' character, replaces all spaces with dashes and con-"
+  echo "catenates the title to the number."
+  echo ""
+  echo "Two arguments $0 [issue number] [issue title]"
+  echo ""
+  echo "  1. [issue number]: The github issue number, a string of one or more digits"
+  echo "     not beginning with zero."
+  echo ""
+  echo "  2. [issue title]: The (quoted) github issue title."
+  echo ""
+  echo "Given two correct arguments, the command replaces all space characters with"
+  echo "dashes and concatenates the resulting string to the issue number."
+  echo ""
+  echo "Note that it makes no attempt to determine if creating a new branch 'here"
+  echo "and now' is or is not a good idea..."
+  echo ""
+  echo ""
+
+  exit
+
+fi
+
+# Make the branch!
+BRANCHNAME="$ISSUENUMBER-$(echo $ISSUETITLE | awk '{ gsub(/[ ,_-]+/, "-", $0); print tolower($0); }')"
+git checkout -b $BRANCHNAME
