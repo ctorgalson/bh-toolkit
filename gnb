@@ -52,5 +52,5 @@ else
 fi
 
 # Make the branch!
-BRANCHNAME="$ISSUENUMBER-$(echo $ISSUETITLE | awk '{ gsub(/[ ,_-]+/, "-", $0); print tolower($0); }')"
+BRANCHNAME="$ISSUENUMBER-$(echo $ISSUETITLE | awk '{ gsub(/[ \.\/,_~-]+/, "-", $0); print tolower($0); }')"
 git checkout -b $BRANCHNAME
